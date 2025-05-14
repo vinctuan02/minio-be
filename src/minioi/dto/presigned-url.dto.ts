@@ -1,11 +1,21 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class GetPresignedUploadDto {
+
   @IsNotEmpty()
-  fileName: string;
+  endpoint: string;
+
+  @IsNotEmpty()
+  accessKey: string;
+
+  @IsNotEmpty()
+  secretKey: string;
 
   @IsNotEmpty()
   bucketName: string;
+
+  @IsNotEmpty()
+  key: string;
 
   @IsNotEmpty()
   contentType: string;
@@ -13,16 +23,40 @@ export class GetPresignedUploadDto {
 
 export class GetPresignedReadDto {
   @IsNotEmpty()
-  fileName: string;
+  endpoint: string;
+
+  @IsNotEmpty()
+  accessKey: string;
+
+  @IsNotEmpty()
+  secretKey: string;
 
   @IsNotEmpty()
   bucketName: string;
+
+  @IsNotEmpty()
+  key: string;
+}
+
+export class GetPresignedReadUrlsDto extends GetPresignedReadDto {
+  @IsNotEmpty()
+  fileId: string;
 }
 
 export class GetPresignedDownloadDto {
+
   @IsNotEmpty()
-  fileName: string;
+  endpoint: string;
+
+  @IsNotEmpty()
+  accessKey: string;
+
+  @IsNotEmpty()
+  secretKey: string;
 
   @IsNotEmpty()
   bucketName: string;
+
+  @IsNotEmpty()
+  key: string;
 }

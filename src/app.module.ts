@@ -2,8 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MinIOModule } from './minioi/minio.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envValidationSchema } from './common/config/validation-config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseOptions } from './common/typeorm/ormconfig';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -11,9 +14,16 @@ import { envValidationSchema } from './common/config/validation-config';
       isGlobal: true,
       validationSchema: envValidationSchema,
     }),
+
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useClass: DatabaseOptions,
+    }),
     MinIOModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
