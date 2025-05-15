@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { envValidationSchema } from './common/config/validation-config';
 import { DatabaseOptions } from './common/typeorm/ormconfig';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { DateModule } from './date/date.module';
+import { HelperModule } from './helper/hepler.module';
 import { FileModule } from './file/file.module';
 import { MinIOModule } from './minoi/minio.module';
 import { OrderModule } from './order/order.module';
@@ -26,10 +26,10 @@ import { OrderModule } from './order/order.module';
 		MinIOModule,
 		FileModule,
 		OrderModule,
-		DateModule,
+		HelperModule,
 		DashboardModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { TypeGroupDate, TZ_OFFSET } from './enum/date.enum';
+import { TypeGroupDate, TZ_OFFSET } from '../enum/date.enum';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

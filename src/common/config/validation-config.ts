@@ -12,6 +12,7 @@ export const envValidationSchema = Joi.object({
   DB_NAME: Joi.string().required(),
 
   PORT: Joi.number().required(),
+  ENCRYPTION_KEY: Joi.string().required(),
 
   // URL_MINIO: Joi.string().required(),
   // ACCESS_KEY_ID_MINIO: Joi.string().required(),
