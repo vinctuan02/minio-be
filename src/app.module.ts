@@ -10,6 +10,7 @@ import { HelperModule } from './helper/hepler.module';
 import { FileModule } from './file/file.module';
 import { MinIOModule } from './minoi/minio.module';
 import { OrderModule } from './order/order.module';
+import { UserModule } from './user/user.module';
 
 @Module({
 	imports: [
@@ -26,6 +27,8 @@ import { OrderModule } from './order/order.module';
 		MinIOModule,
 		FileModule,
 		OrderModule,
+		UserModule,
+
 		HelperModule,
 		DashboardModule,
 	],

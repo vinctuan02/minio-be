@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import crypto from 'crypto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PasswordService {
@@ -25,5 +26,17 @@ export class PasswordService {
         decrypted += decipher.final('utf8');
         return decrypted;
     }
+
+    async hashPassword(password: string): Promise<string> {
+        return bcrypt.hash(password, 10);
+    }
+
+    async comparePassword(
+        password: string,
+        hash: string,
+    ): Promise<boolean> {
+        return bcrypt.compare(password, hash);
+    }
+
 }
 

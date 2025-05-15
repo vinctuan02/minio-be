@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataListSuccessDto } from 'src/common/dto/response.dto';
-import { hashPassword } from 'src/common/functions/functions-password';
 import { Repository } from 'typeorm';
 import { QueryGetListFileDto } from '../dto/req/query-get-list.dto';
 import { SubmitUploadFileDto } from '../dto/req/submit-upload.dto';
