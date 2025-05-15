@@ -11,6 +11,7 @@ import { FileModule } from './file/file.module';
 import { MinIOModule } from './minoi/minio.module';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -28,7 +29,7 @@ import { UserModule } from './user/user.module';
 		FileModule,
 		OrderModule,
 		UserModule,
-
+		AuthModule,
 		HelperModule,
 		DashboardModule,
 	],
