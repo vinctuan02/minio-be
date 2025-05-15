@@ -61,8 +61,8 @@ export class MinioService {
 
 	async getPresignedReadUrls(
 		readPayloads: GetPresignedReadUrlsDto[],
-	): Promise<Map<TypeID, string>> {
-		const result = new Map<TypeID, string>();
+	): Promise<Map<TypeID, string | null>> {
+		const result = new Map<TypeID, string | null>();
 
 		await Promise.all(
 			readPayloads.map(async (readPayload) => {
@@ -74,30 +74,38 @@ export class MinioService {
 					accessKey,
 					secretKey,
 				} = readPayload;
-				const s3Client = this.createS3Client(
-					endpoint,
-					accessKey,
-					secretKey,
-				);
 
-				const getCommand = new GetObjectCommand({
-					Bucket: bucketName,
-					Key: key,
-				});
+				try {
+					const s3Client = this.createS3Client(
+						endpoint,
+						accessKey,
+						secretKey,
+					);
 
-				const presignedReadUrl = await getSignedUrl(
-					s3Client,
-					getCommand,
-					{
-						expiresIn: 10 * 3600,
-					},
-				);
-				result.set(fileId, presignedReadUrl);
+					const getCommand = new GetObjectCommand({
+						Bucket: bucketName,
+						Key: key,
+					});
+
+					const presignedReadUrl = await getSignedUrl(
+						s3Client,
+						getCommand,
+						{
+							expiresIn: 10 * 3600,
+						},
+					);
+
+					result.set(fileId, presignedReadUrl);
+				} catch (error) {
+					result.set(fileId, null);
+				}
 			}),
 		);
 
 		return result;
 	}
+
+
 
 	async getPresignedDownloadUrl(payload: GetPresignedDownloadDto) {
 		const { key, bucketName, endpoint, accessKey, secretKey } = payload;
