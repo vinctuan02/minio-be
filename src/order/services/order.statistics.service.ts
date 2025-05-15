@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QueryDashboardDto } from '../../dashboard/dto/query-dashboard';
 import { Order } from '../entities/order.entity';
-import { DateService } from 'src/date/date.service';
+import { DateService } from 'src/helper/services/date.service';
 
 @Injectable()
 export class OrderStatisticsService {

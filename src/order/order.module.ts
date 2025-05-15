@@ -5,10 +5,10 @@ import { OrderController } from './order.controller';
 import { OrderRepository } from './repository/order.repository';
 import { OrderService } from './services/order.service';
 import { OrderStatisticsService } from './services/order.statistics.service';
-import { DateModule } from 'src/date/date.module';
+import { HelperModule } from 'src/helper/hepler.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Order]), DateModule],
+	imports: [TypeOrmModule.forFeature([Order]), HelperModule],
 	providers: [OrderService, OrderRepository, OrderStatisticsService],
 	exports: [OrderStatisticsService],
 	controllers: [OrderController],
