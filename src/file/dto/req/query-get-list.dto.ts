@@ -1,5 +1,3 @@
-import { QueryDto } from "src/common/dto/query";
+import { BaseQueryDto } from 'src/common/dto/base-query.dto';
 
-export class QueryGetListFileDto extends QueryDto {
-
-}
+export class QueryGetListFileDto extends BaseQueryDto {}

@@ -1,14 +1,19 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+	CreateDateColumn,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm';
+import { TypeID } from '../typeorm/enum/db-type.enum';
 
-export class DateEntity {
-    @CreateDateColumn()
-    createdAt: Date;
+export class BaseDateEntity {
+	@CreateDateColumn({ type: 'timestamptz' })
+	createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+	@UpdateDateColumn({ type: 'timestamptz' })
+	updatedAt: Date;
 }
 
-export class BaseEntity extends DateEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+export class BaseEntity extends BaseDateEntity {
+	@PrimaryGeneratedColumn()
+	id: TypeID;
 }

@@ -1,31 +1,44 @@
-import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
-import { File } from "../entities/file.entity";
-import { SubmitUploadFileDto } from "../dto/req/submit-upload.dto";
-import { DataListSuccessDto, MetaData } from "src/common/dto/response";
-import { QueryGetListFileDto } from "../dto/req/query-get-list.dto";
-import { InjectRepository } from "@nestjs/typeorm";
-import { hashPassword } from "src/common/functions/functions-password";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataListSuccessDto } from 'src/common/dto/response.dto';
+import { hashPassword } from 'src/common/functions/functions-password';
+import { Repository } from 'typeorm';
+import { QueryGetListFileDto } from '../dto/req/query-get-list.dto';
+import { SubmitUploadFileDto } from '../dto/req/submit-upload.dto';
+import { File } from '../entities/file.entity';
+
 @Injectable()
 export class FileService {
+	constructor(
+		@InjectRepository(File)
+		private readonly fileRepository: Repository<File>,
+	) {}
 
-    constructor(
-        @InjectRepository(File)
-        private readonly fileRepository: Repository<File>,
-    ) { }
+	async submitUploadFile(payload: SubmitUploadFileDto): Promise<File> {
+		const { secretKey } = payload;
+		const hashSecretKey = await hashPassword(secretKey);
 
-    async submitUploadFile(payload: SubmitUploadFileDto): Promise<File> {
-        const { secretKey } = payload;
-        const hashSecretKey = await hashPassword(secretKey);
+		const file = await this.fileRepository.create({
+			...payload,
+			secretKey: hashSecretKey,
+		});
+		return this.fileRepository.save(file);
+	}
 
-        const file = await this.fileRepository.create({ ...payload, secretKey: hashSecretKey });
-        return this.fileRepository.save(file);
-    }
+	async getListFile(
+		query: QueryGetListFileDto,
+	): Promise<DataListSuccessDto<File>> {
+		const { page, pageSize } = query;
 
-    async getListFile(query: QueryGetListFileDto): Promise<DataListSuccessDto<File>> {
-        const { page, pageSize } = query;
+		const [result, totalItems] = await this.fileRepository.findAndCount({
+			skip: query.skip,
+			take: query.pageSize,
+		});
 
-        const result = await this.fileRepository.find();
-        return new DataListSuccessDto<File>(result, new MetaData(page, pageSize, result.length));
-    }
+		return new DataListSuccessDto<File>(result, {
+			currentPage: page,
+			pageSize,
+			totalItems,
+		});
+	}
 }
