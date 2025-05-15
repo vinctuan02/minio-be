@@ -5973,6 +5973,11 @@ package@^1.0.1:
   resolved "https://registry.yarnpkg.com/package/-/package-1.0.1.tgz#d25a1f99e2506dcb27d6704b83dca8a312e4edcc"
   integrity sha512-g6xZR6CO7okjie83sIRJodgGvaXqymfE5GLhN8N2TmZGShmHc/V23hO/vWbdnuy3D81As3pfovw72gGi42l9qA==
 
+packge@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/packge/-/packge-1.0.0.tgz#c8eab50b88654d58fef7f161ea2db9c147c8c9b4"
+  integrity sha512-1Bj2pImRw/vWM5n85IWMfP/x2l+J0JBbLDPv4VSkMy8sMcpmNwcSJRN+VzfUPSUaro5mxoLrisDSPJNh9pGUkg==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"

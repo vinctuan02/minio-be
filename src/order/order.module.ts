@@ -5,11 +5,12 @@ import { OrderController } from './order.controller';
 import { OrderRepository } from './repository/order.repository';
 import { OrderService } from './services/order.service';
 import { OrderStatisticsService } from './services/order.statistics.service';
+import { DateModule } from 'src/date/date.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Order])],
+	imports: [TypeOrmModule.forFeature([Order]), DateModule],
 	providers: [OrderService, OrderRepository, OrderStatisticsService],
 	exports: [OrderStatisticsService],
 	controllers: [OrderController],
 })
-export class OrderModule {}
+export class OrderModule { }

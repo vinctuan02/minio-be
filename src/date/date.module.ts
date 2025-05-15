@@ -6,5 +6,6 @@ import { DateService } from './date.service';
 	imports: [],
 	controllers: [DateController],
 	providers: [DateService],
+	exports: [DateService],
 })
-export class DateModule {}
+export class DateModule { }
