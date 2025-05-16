@@ -6,10 +6,10 @@ import {
 import { TypeID } from '../typeorm/enum/db-type.enum';
 
 export class BaseDateEntity {
-	@CreateDateColumn({ type: 'timestamptz' })
+	@CreateDateColumn({ name: 'created_at', type: 'timestamptz', precision: 0 })
 	createdAt: Date;
 
-	@UpdateDateColumn({ type: 'timestamptz' })
+	@UpdateDateColumn({ name: 'updated_at', type: 'timestamptz', precision: 0 })
 	updatedAt: Date;
 }
 
