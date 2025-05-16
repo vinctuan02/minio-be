@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HelperModule } from 'src/helper/helper.module';
 import { Order } from './entities/order.entity';
 import { OrderController } from './order.controller';
 import { OrderRepository } from './repository/order.repository';
 import { OrderService } from './services/order.service';
 import { OrderStatisticsService } from './services/order.statistics.service';
-import { HelperModule } from 'src/helper/hepler.module';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Order]), HelperModule],
@@ -13,4 +13,4 @@ import { HelperModule } from 'src/helper/hepler.module';
 	exports: [OrderStatisticsService],
 	controllers: [OrderController],
 })
-export class OrderModule { }
+export class OrderModule {}
