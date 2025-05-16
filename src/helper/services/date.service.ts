@@ -71,7 +71,7 @@ export class DateService {
 		startDate: Date,
 		endDate: Date,
 		typeGroupDate: TypeGroupDate,
-	): { groupFormat: string; listDate: string[] } {
+	): { groupFormat: FormatDate; listDate: string[] } {
 		const groupFormat = this.getGroupFormat(typeGroupDate);
 		const listDate = this.getListDate(startDate, endDate, typeGroupDate);
 

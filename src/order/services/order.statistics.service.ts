@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DateField } from 'src/dashboard/enum/date-filed.enum';
 import { DateService } from 'src/helper/services/date.service';
 import { Repository } from 'typeorm';
 import { QueryDashboardDto } from '../../dashboard/dto/query-dashboard';
 import { Order } from '../entities/order.entity';
+import {
+	IOrderGroupByDate,
+	IOrderRawDataGroupByDate,
+} from '../interfaces/order.interface';
+import { IGetDataGroupByDate } from '../interfaces/order.interface-func';
 
 @Injectable()
 export class OrderStatisticsService {
@@ -14,7 +18,7 @@ export class OrderStatisticsService {
 		private readonly dateService: DateService,
 	) {}
 
-	async groupByDate(query: QueryDashboardDto) {
+	async groupByDate(query: QueryDashboardDto): Promise<IOrderGroupByDate[]> {
 		const { startDate, endDate, dateField, typeGroupDate, timezone } =
 			query;
 
@@ -43,13 +47,9 @@ export class OrderStatisticsService {
 		return result;
 	}
 
-	async getDataGroupByDate(data: {
-		startDate: Date;
-		endDate: Date;
-		dateField: DateField;
-		groupFormat: string;
-		timezone: string;
-	}): Promise<Map<string, number>> {
+	async getDataGroupByDate(
+		data: IGetDataGroupByDate,
+	): Promise<Map<string, number>> {
 		const resultMap = new Map<string, number>();
 
 		const { startDate, endDate, dateField, groupFormat, timezone } = data;
@@ -75,10 +75,8 @@ export class OrderStatisticsService {
 			);
 		}
 
-		const rawData = await queryBuilder.getRawMany<{
-			date: string;
-			count: number;
-		}>();
+		const rawData =
+			await queryBuilder.getRawMany<IOrderRawDataGroupByDate>();
 
 		rawData.forEach((item) => {
 			resultMap.set(item.date, item.count);
