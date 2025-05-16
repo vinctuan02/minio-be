@@ -1,8 +1,9 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 import { BaseQueryDto } from 'src/common/dto/base-query.dto';
-import { dateField } from '../enum/date-filed.enum';
-import { TypeGroupDate, TZ_OFFSET } from 'src/helper/enum/date.enum';
+import { TypeGroupDate } from 'src/helper/enum/date.enum';
+import { DashboardEnum } from '../constants/dashboard.enum';
+import { DateField } from '../enum/date-filed.enum';
 
 export class QueryDashboardDto extends BaseQueryDto {
 	@IsOptional()
@@ -15,13 +16,13 @@ export class QueryDashboardDto extends BaseQueryDto {
 	@Type(() => Date)
 	endDate?: Date;
 
-	@IsEnum(dateField)
+	@IsEnum(DateField)
 	@IsOptional()
-	dateField?: dateField = dateField.DEADLINE;
+	dateField?: DateField = DateField.DEADLINE;
 
 	@IsOptional()
-	@IsEnum(TZ_OFFSET)
-	tzOffset?: TZ_OFFSET = TZ_OFFSET.UTC_OFFSET_7;
+	@IsString()
+	timezone?: string = DashboardEnum.DEFAULT_TIMEZONE;
 
 	@IsEnum(TypeGroupDate)
 	@IsOptional()

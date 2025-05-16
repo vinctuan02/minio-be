@@ -8,7 +8,7 @@ export class DashboardService {
 	) {}
 
 	async getDashboard(query: QueryDashboardDto) {
-		const result = await this.orderStatisticsService.groupListByDate(query);
+		const result = await this.orderStatisticsService.groupByDate(query);
 		return result;
 	}
 }

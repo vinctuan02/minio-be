@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DateField } from 'src/dashboard/enum/date-filed.enum';
+import { DateService } from 'src/helper/services/date.service';
 import { Repository } from 'typeorm';
 import { QueryDashboardDto } from '../../dashboard/dto/query-dashboard';
 import { Order } from '../entities/order.entity';
-import { DateService } from 'src/helper/services/date.service';
 
 @Injectable()
 export class OrderStatisticsService {
@@ -11,20 +12,62 @@ export class OrderStatisticsService {
 		@InjectRepository(Order)
 		private readonly orderRepository: Repository<Order>,
 		private readonly dateService: DateService,
-	) { }
+	) {}
 
-	async groupListByDate(query: QueryDashboardDto) {
-		const { startDate, endDate, dateField, tzOffset, typeGroupDate } = query;
+	async groupByDate(query: QueryDashboardDto) {
+		const { startDate, endDate, dateField, typeGroupDate, timezone } =
+			query;
+
+		const { groupFormat, listDate } =
+			this.dateService.getListDateAndGroupFormat(
+				startDate,
+				endDate,
+				typeGroupDate,
+			);
+
+		const dataGroupDate = await this.getDataGroupByDate({
+			startDate,
+			endDate,
+			dateField,
+			groupFormat,
+			timezone,
+		});
+
+		const result = listDate.map((date) => {
+			return {
+				date,
+				count: dataGroupDate.get(date) || 0,
+			};
+		});
+
+		return result;
+	}
+
+	async getDataGroupByDate(data: {
+		startDate: Date;
+		endDate: Date;
+		dateField: DateField;
+		groupFormat: string;
+		timezone: string;
+	}): Promise<Map<string, number>> {
+		const resultMap = new Map<string, number>();
+
+		const { startDate, endDate, dateField, groupFormat, timezone } = data;
 
 		const queryBuilder = this.orderRepository
 			.createQueryBuilder('order')
-			.select(`order.${dateField}`, 'dateField')
-			.addSelect('COUNT(order.id)', 'count')
-			.groupBy(`order.${dateField}`);
+			.select(
+				`to_char(order.${dateField} AT TIME ZONE :tz, '${groupFormat}')`,
+				'date',
+			)
+			.addSelect('COUNT(order.id)::int', 'count')
+			.groupBy('date')
+			.orderBy('date', 'ASC')
+			.setParameter('tz', timezone);
 
 		if (startDate && endDate) {
-			queryBuilder.where(
-				'order.deadline BETWEEN :startDate AND :endDate',
+			queryBuilder.andWhere(
+				`order.${dateField} BETWEEN :startDate AND :endDate`,
 				{
 					startDate,
 					endDate,
@@ -32,11 +75,15 @@ export class OrderStatisticsService {
 			);
 		}
 
-		// const dateList = this.dateService.getListDate(startDate, endDate, typeGroupDate, tzOffset);
-		// console.log(dateList)
+		const rawData = await queryBuilder.getRawMany<{
+			date: string;
+			count: number;
+		}>();
 
+		rawData.forEach((item) => {
+			resultMap.set(item.date, item.count);
+		});
 
-
-		return await queryBuilder.getRawMany();
+		return resultMap;
 	}
 }
