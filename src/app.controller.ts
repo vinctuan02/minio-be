@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Headers, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  // @Get('secure')
+  // @UseGuards(AuthGuard('jwt'))
+  // getSecureData(@Headers('authorization') authHeader: string) {
+  //   console.log('📥 Received Authorization header:', authHeader);
+  //   return { message: '✅ Access granted by Auth0' };
+  // }
 }
