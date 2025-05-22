@@ -16,7 +16,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy, 'auth0-jwt') {
 		private readonly userAuth0Service: UserAuth0Service,
 		private readonly auth0Service: Auth0Service,
 	) {
-		const auth0Url = configService.get<string>('AUTH0_URL_BASE');
+		const auth0Url = configService.get<string>('AUTH0_DOMAIN');
 		const jwksUri = `${auth0Url}/.well-known/jwks.json`;
 		const audienceUrl = configService.get<string>('AUTH0_AUDIENCE');
 		const issuerUrl = `${auth0Url}/`;

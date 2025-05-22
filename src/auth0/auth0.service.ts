@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Auth0UserInfo } from 'src/auth/interfaces/auth.interface';
 import { UserAuth0Service } from 'src/user/services/user-auth0.service';
+import { Auth0EndpointService } from './auth0.endpoint.service';
+import { Auth0Endpoint } from './enum/auth0.enum';
 import { LoginEventBody } from './interfaces/auth0.interface';
 
 @Injectable()
@@ -10,6 +12,7 @@ export class Auth0Service {
 	constructor(
 		private readonly userAuth0Service: UserAuth0Service,
 		private readonly configService: ConfigService,
+		private readonly auth0EndpointService: Auth0EndpointService,
 	) {}
 
 	async handleWebhook(body: LoginEventBody) {
@@ -38,7 +41,7 @@ export class Auth0Service {
 
 		try {
 			const res = await fetch(
-				this.configService.get<string>('AUTH0_USERINFO'),
+				this.auth0EndpointService.getUrl(Auth0Endpoint.USERINFO),
 				{
 					headers: { Authorization: `Bearer ${accessToken}` },
 				},

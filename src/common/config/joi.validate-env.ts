@@ -19,6 +19,7 @@ export const envValidationSchema = Joi.object({
 	JWT_EXPIRES_IN: Joi.string().required(),
 
 	// auth0
-	AUTH0_URL_BASE: Joi.string().required(),
+	AUTH0_DOMAIN: Joi.string().required(),
 	AUTH0_AUDIENCE: Joi.string().required(),
+	AUTH0_WEBHOOK_SECRET: Joi.string().required(),
 });

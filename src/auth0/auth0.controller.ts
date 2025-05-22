@@ -1,5 +1,8 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/auth.decorators';
+import { Auth0WebhookGuard } from 'src/auth/guards/auth0.webhook.guard';
 import { Auth0Service } from './auth0.service';
+import { LoginEventBody } from './interfaces/auth0.interface';
 
 @Controller('auth0')
 export class Auth0Controller {
@@ -7,7 +10,9 @@ export class Auth0Controller {
 
 	@Post('webhook')
 	@HttpCode(200)
-	handleWebhook(@Body() body: any) {
-		return this.auth0Service.handleWebhook(body);
+	@Public()
+	@UseGuards(Auth0WebhookGuard)
+	async handleWebhook(@Body() body: LoginEventBody) {
+		return await this.auth0Service.handleWebhook(body);
 	}
 }
