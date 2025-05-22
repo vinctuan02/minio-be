@@ -2,20 +2,21 @@ import { BaseEntity } from 'src/common/entity/base-entity';
 import { Column, Entity, Unique } from 'typeorm';
 import { RoleUser } from '../enum/user.enums';
 
-@Entity('user')
+@Entity('user_auth0')
+@Unique(['auth0Sub'])
 @Unique(['email'])
-export class User extends BaseEntity {
+export class UserAuth0 extends BaseEntity {
+	@Column()
+	auth0Sub: string;
+
 	@Column()
 	email: string;
 
-	@Column()
-	password: string;
+	@Column({ nullable: true })
+	name: string;
 
-	@Column({ name: 'first_name' })
-	firstName: string;
-
-	@Column({ name: 'last_name' })
-	lastName: string;
+	@Column({ nullable: true })
+	picture: string;
 
 	@Column({ enum: RoleUser, default: RoleUser.USER })
 	role: RoleUser;

@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { envValidationSchema } from './common/config/validation-config';
+import { envValidationSchema } from './common/config/joi.validate-env';
 import { DatabaseOptions } from './common/typeorm/ormconfig';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FileModule } from './file/file.module';

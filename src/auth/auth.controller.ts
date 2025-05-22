@@ -1,26 +1,22 @@
-import { Controller, Post, Body, BadRequestException, Get, UseGuards, Headers } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Body, Controller, Post } from '@nestjs/common';
 import { UserCreateDto } from 'src/user/dto/user.create.dto';
+import { Public } from './decorators/auth.decorators';
 import { AuthLoginDto } from './dto/auth.login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthService } from './services/auth.service';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+	constructor(private readonly authService: AuthService) {}
 
-    @Post('register')
-    async register(@Body() payload: UserCreateDto) {
-        return this.authService.register(payload);
-    }
+	@Public()
+	@Post('register')
+	async register(@Body() payload: UserCreateDto) {
+		return this.authService.register(payload);
+	}
 
-    @Post('login')
-    async login(@Body() payload: AuthLoginDto) {
-        return this.authService.login(payload);
-    }
-
-    @Get('secure')
-    @UseGuards(JwtAuthGuard)
-    getSecure() {
-        return { message: '✅ Access granted' };
-    }
+	@Public()
+	@Post('login')
+	async login(@Body() payload: AuthLoginDto) {
+		return this.authService.login(payload);
+	}
 }
