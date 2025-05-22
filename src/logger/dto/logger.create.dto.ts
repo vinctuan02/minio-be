@@ -1,33 +1,42 @@
 import {
 	IsBoolean,
+	IsEnum,
 	IsInt,
+	IsNotEmpty,
 	IsNumber,
 	IsOptional,
 	IsString,
 } from 'class-validator';
+import { StatusResponse } from '../enums/logger.enum';
 
 export class CreateLogDto {
-	@IsString()
-	action: string;
 
-	@IsString()
-	originalUrl: string;
+	@IsNotEmpty()
+	ip: string;
 
-	@IsInt()
-	statusCode: number;
-
-	@IsString()
-	content: string;
-
-	@IsString()
-	response: string;
+	@IsNotEmpty()
+	method: string;
 
 	@IsOptional()
-	@IsString()
-	note: string;
+	originalUrl?: string;
 
-	@IsBoolean()
-	success: boolean;
+	@IsOptional()
+	userAgent?: string;
+
+	@IsNotEmpty()
+	status: boolean;
+
+	@IsOptional()
+	content?: string;
+
+	@IsOptional()
+	response?: string;
+
+	@IsOptional()
+	city?: string;
+
+	@IsOptional()
+	country?: string;
 }
 
 export class CheckRecentLogDto {

@@ -4,6 +4,9 @@ import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants/constants';
 
 export class BaseQueryDto {
 	@IsOptional()
+	keyword: string;
+
+	@IsOptional()
 	@IsNumber()
 	@Min(1)
 	@Type(() => Number)

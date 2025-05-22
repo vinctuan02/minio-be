@@ -2,7 +2,7 @@
 // import { Column, Entity } from 'typeorm';
 
 // @Entity('log')
-// export class LoggerEntity extends BaseEntity {
+// export class Logger extends BaseEntity {
 // 	@Column()
 // 	action: string;
 
@@ -42,15 +42,29 @@
 
 import { BaseEntity } from 'src/common/entity/base-entity';
 import { Column, Entity } from 'typeorm';
+import { StatusResponse } from '../enums/logger.enum';
 
 @Entity('logger')
-export class LoggerEntity extends BaseEntity {
+export class Logger extends BaseEntity {
+
+	@Column({ type: 'varchar', default: '::1' })
+	ip: string;
+
 	@Column()
 	method: string;
 
-	@Column()
-	url: string;
+	@Column({ nullable: true })
+	originalUrl: string;
 
-	@Column('text', { nullable: true })
+	@Column({ type: 'varchar', length: 255, nullable: true })
 	userAgent?: string;
+
+	@Column({ type: 'boolean' })
+	status: boolean
+
+	@Column({ type: 'varchar', length: 2000, nullable: true })
+	content: string;
+
+	@Column({ type: 'varchar', length: 2000, nullable: true })
+	response: string;
 }
