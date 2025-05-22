@@ -9,6 +9,7 @@ import { DatabaseOptions } from './common/typeorm/ormconfig';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FileModule } from './file/file.module';
 import { HelperModule } from './helper/helper.module';
+import { LoggerModule } from './logger/logger.moduler';
 import { MinIOModule } from './minio/minio.module';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
@@ -32,6 +33,7 @@ import { UserModule } from './user/user.module';
 		AuthModule,
 		HelperModule,
 		DashboardModule,
+		LoggerModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
