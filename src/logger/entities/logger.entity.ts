@@ -42,11 +42,9 @@
 
 import { BaseEntity } from 'src/common/entity/base-entity';
 import { Column, Entity } from 'typeorm';
-import { StatusResponse } from '../enums/logger.enum';
 
 @Entity('logger')
 export class Logger extends BaseEntity {
-
 	@Column({ type: 'varchar', default: '::1' })
 	ip: string;
 
@@ -60,11 +58,17 @@ export class Logger extends BaseEntity {
 	userAgent?: string;
 
 	@Column({ type: 'boolean' })
-	status: boolean
+	status: boolean;
 
 	@Column({ type: 'varchar', length: 2000, nullable: true })
 	content: string;
 
-	@Column({ type: 'varchar', length: 2000, nullable: true })
-	response: string;
+	@Column('text', { nullable: true })
+	response?: string;
+
+	@Column({ type: 'varchar', nullable: true })
+	city: string;
+
+	@Column({ type: 'varchar', nullable: true })
+	country: string;
 }
